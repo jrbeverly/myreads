@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import Book from './Book.js'
-import Books from './Books.js'
 import Shelf from './Shelf.js'
 
 class BookShelf extends Component {
