@@ -2,6 +2,7 @@ import React from 'react'
 // import * as BooksAPI from './api/BooksAPI'
 import Book from './components/Book.js'
 import Books from './components/Books.js'
+import Shelf from './components/Shelf.js'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -78,18 +79,9 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Currently Reading</h2>
-                    <Books books={ readingBooks } />
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Want to Read</h2>
-                    <Books books={ wantBooks } />
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Read</h2>
-                    <Books books={ readBooks } />
-                  </div>
+                  <Shelf title="Currently Reading" books={ readingBooks } />
+                  <Shelf title="Want to Read" books={ wantBooks } />
+                  <Shelf title="Read" books={ readBooks } />
                 </div>
               </div>
               <div className="open-search">
