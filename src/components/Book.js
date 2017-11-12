@@ -7,10 +7,11 @@ class Book extends Component {
         title: PropTypes.string,
         url: PropTypes.string,
         authors: PropTypes.string,
+        onChange: PropTypes.func.isRequired
     }
 
     render() {
-        const { title, url, authors } = this.props
+        const { title, url, authors, onChange } = this.props
 
         return (
             <li>
@@ -18,7 +19,7 @@ class Book extends Component {
                     <div className="book-top">
                         <div className="book-cover" style={{ backgroundImage: `url(${url})` }}></div>
                         <div className="book-shelf-changer">
-                            <select>
+                            <select onChange={ e => onChange(title, e.target.value) }>
                                 <option value="none" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>

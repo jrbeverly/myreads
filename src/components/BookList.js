@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Title from './Title.js'
+import Header from './Header.js'
 import BookShelf from './BookShelf.js'
 import OpenSearch from './OpenSearch.js'
 
@@ -8,7 +8,7 @@ class BookList extends Component {
     render() {
         return (
             <div className="list-books">
-                <Title />
+                <Header />
                 <BookShelf />
                 <OpenSearch />
             </div>
