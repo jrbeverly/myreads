@@ -188,6 +188,12 @@ body,
     height: 192px;
 }
 
+.book-no-cover {
+    background-image: url('./icons/no-cover.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .book-cover-title {
     padding: 20px 10px 0;
     text-align: center;

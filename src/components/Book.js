@@ -8,19 +8,29 @@ class Book extends Component {
     }
 
     render() {
-        const { book, shelf, children } = this.props;
+        const { book, children } = this.props;
+
+        const image = (book.imageLinks && (book.imageLinks.thumbnail || book.imageLinks.smallThumbnail));
+        const coverClass = ['book-cover'];
+
+        if (image === undefined) {
+            coverClass.push('book-no-cover');
+        }
 
         return (
             <li>
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={{ backgroundImage: `url(${book.url})` }}></div>
+                        <div
+                            className={coverClass.join(' ')}
+                            style={image && { backgroundImage: `url(${image})` }}>
+                        </div>
                         <div className="book-shelf-changer">
-                            { children }
+                            {children}
                         </div>
                     </div>
-                    <div className="book-title">{book.title}</div>
-                    <div className="book-authors">{book.authors}</div>
+                    <div className="book-title">{book.title ? book.title : null}</div>
+                    <div className="book-authors">{book.authors ? book.authors.join(', ') : null}</div>
                 </div>
             </li>
         )

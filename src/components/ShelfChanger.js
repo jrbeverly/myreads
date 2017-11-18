@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class ShelfChanger extends React.Component {
+class ShelfChanger extends Component {
     static propTypes = {
         value: PropTypes.string,
         onChange: PropTypes.func.isRequired
