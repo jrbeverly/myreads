@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import ReactLoading from 'react-loading';
 
 import Book from 'components/Book.js'
 import ShelfChanger from 'components/ShelfChanger.js'
@@ -114,9 +115,11 @@ class BookSearch extends Component {
                 </div>
                 <div className="search-books-results">
                     {
-                        state === "searching" || query === "" ?
+                        state === "searching" ?
                             (
-                                <div></div>
+                                <div className="loading">
+                                    <ReactLoading type="bars" color="#444" width="150px" />
+                                </div>
                             )
                             :
                             state === "success" && books.length > 0 ?
@@ -136,7 +139,7 @@ class BookSearch extends Component {
                                     </div>
                                 )
                                 :
-                                (
+                                query !== "" && (
                                     <div>
                                         <h3>Your search - '<b>{query}</b>' - did not match any books.</h3>
                                     </div>
