@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 import Book from 'components/Book.js'
+import ShelfChanger from 'components/ShelfChanger.js'
 import Constants from 'utility/AppConstants.js'
 
 import * as BooksAPI from 'api/BooksAPI'
@@ -11,11 +12,26 @@ class BookSearch extends Component {
     state = {
         query: "",
         books: [],
+        shelves: [],
         state: "none",
         timeout: 0
     }
 
-    getBooks(query) {
+    componentDidMount() {
+        this.getBooks();
+    }
+
+    getBooks() {
+        BooksAPI.getAll().then(books => {
+            this.setState(
+                {
+                    shelves: books.map((b) => b.id)
+                }
+            );
+        })
+    }
+
+    search(query) {
         if (!query) {
             this.setState({
                 books: [],
@@ -27,7 +43,15 @@ class BookSearch extends Component {
         BooksAPI
             .search(query, 10)
             .then((books) => {
-                if (books.error && books.error !== "empty query") {
+                if (books.error === "empty query") {
+                    this.setState({
+                        books: [],
+                        state: "success"
+                    });
+                    return;
+                }
+
+                if (books.error) {
                     this.setState({
                         books: [],
                         state: "error"
@@ -35,31 +59,42 @@ class BookSearch extends Component {
                     return;
                 }
 
+                const shelves = this.state.shelves;
+
                 this.setState({
-                    books: books,
+                    books: books.filter((b) => !shelves.includes(b.id)),
                     state: "success"
                 });
             });
     }
 
-    onQueryChange(e) {
+    onQueryChange(event) {
         const self = this;
-        const query = e.target.value.trim();
+        const query = event.target.value.trim();
 
-        self.setState({
+        this.setState({
             state: "searching"
         });
 
-        if (self.state.timeout) {
-            clearTimeout(self.state.timeout);
+        if (this.state.timeout) {
+            clearTimeout(this.state.timeout);
         }
 
-        self.setState({
+        this.setState({
             query: query,
             typing: false,
             timeout: setTimeout(function () {
-                self.getBooks(query);
+                self.search(query);
             }, Constants.wait_interval)
+        });
+    }
+
+    onShelfChange(book, fromShelf, toShelf) {
+        const self = this;
+
+        BooksAPI.update(book, toShelf).then(function () {
+            self.getBooks();
+            self.search(self.state.query);
         });
     }
 
@@ -74,7 +109,7 @@ class BookSearch extends Component {
                         <input type="text"
                             placeholder="Search by title or author"
                             value={query}
-                            onChange={this.onQueryChange} />
+                            onChange={(event) => this.onQueryChange(event)} />
                     </div>
                 </div>
                 <div className="search-books-results">
@@ -94,7 +129,7 @@ class BookSearch extends Component {
                                             {
                                                 books.map((book, index) => (
                                                     <Book key={index} book={book}>
-                                                        <ShelfChanger value="none" onChange={(fromShelf, toShelf) => onShelfChange(book, fromShelf, toShelf)} />
+                                                        <ShelfChanger value="none" onChange={(fromShelf, toShelf) => this.onShelfChange(book, fromShelf, toShelf)} />
                                                     </Book>
                                                 ))}
                                         </ol>
