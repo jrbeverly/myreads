@@ -95,7 +95,7 @@ class BookShelf extends Component {
                         :
                         (
                             <div className="loading">
-                                <ReactLoading type="bars" color="#444" width='150' />
+                                <ReactLoading type="bars" color="#444" width="150" />
                             </div>
                         )
                 }
