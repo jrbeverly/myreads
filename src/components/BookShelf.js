@@ -9,7 +9,8 @@ class BookShelf extends Component {
             currentlyReading: [],
             wantToRead: [],
             read: []
-        }
+        },
+        ready: false
     }
 
     componentDidMount() {
@@ -17,6 +18,12 @@ class BookShelf extends Component {
             books.forEach(book => {
                 this.add(book.shelf, book);
             });
+
+            this.setState(
+                {
+                    ready: true
+                }
+            );
         })
     }
 
@@ -31,6 +38,8 @@ class BookShelf extends Component {
     move(book, fromShelf, toShelf) {
         this.remove(fromShelf, book);
         this.add(toShelf, book);
+
+        BooksAPI.update(book, toShelf);
     }
 
     /**
@@ -72,11 +81,21 @@ class BookShelf extends Component {
     render() {
         return (
             <div className="list-books-content">
-                <div>
-                    <Shelf title="Currently Reading" shelf="currentlyReading" books={this.state.shelves.currentlyReading} onChange={ (book, fromShelf, toShelf) => this.move(book, "currentlyReading", toShelf) } />
-                    <Shelf title="Want to Read" shelf="wantToRead" books={this.state.shelves.wantToRead} onChange={ (book, fromShelf, toShelf) => this.move(book, "wantToRead", toShelf) } />
-                    <Shelf title="Read" shelf="read" books={this.state.shelves.read} onChange={ (book, fromShelf, toShelf) => this.move(book, "read", toShelf) } />
-                </div>
+                {
+                    this.state.ready
+                        ?
+                        (
+                            <div>
+                                <Shelf title="Currently Reading" shelf="currentlyReading" books={this.state.shelves.currentlyReading} onChange={(book, fromShelf, toShelf) => this.move(book, "currentlyReading", toShelf)} />
+                                <Shelf title="Want to Read" shelf="wantToRead" books={this.state.shelves.wantToRead} onChange={(book, fromShelf, toShelf) => this.move(book, "wantToRead", toShelf)} />
+                                <Shelf title="Read" shelf="read" books={this.state.shelves.read} onChange={(book, fromShelf, toShelf) => this.move(book, "read", toShelf)} />
+                            </div>
+                        )
+                        :
+                        (
+                            <div className="loading">Loading...</div>
+                        )
+                }
             </div>
         )
     }
