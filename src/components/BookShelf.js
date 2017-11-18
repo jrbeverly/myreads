@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Shelf from './Shelf.js'
+import Shelf from 'components/Shelf.js'
 
 class BookShelf extends Component {
 

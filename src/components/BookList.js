@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from './Header.js'
-import BookShelf from './BookShelf.js'
-import OpenSearch from './OpenSearch.js'
+import Header from 'components/Header.js'
+import BookShelf from 'components/BookShelf.js'
+import OpenSearch from 'components/OpenSearch.js'
 
 class BookList extends Component {
 

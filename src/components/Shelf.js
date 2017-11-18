@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import ShelfChanger from './ShelfChanger.js'
-import Book from './Book.js'
+import ShelfChanger from 'components/ShelfChanger.js'
+import Book from 'components/Book.js'
 
 class Shelf extends Component {
 
