@@ -2,35 +2,71 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 import Book from 'components/Book.js'
+import Constants from 'utility/AppConstants.js'
 
 import * as BooksAPI from 'api/BooksAPI'
 
 class BookSearch extends Component {
 
     state = {
-        query: '',
-        books: []
+        query: "",
+        books: [],
+        state: "none",
+        timeout: 0
     }
 
     getBooks(query) {
+        if (!query) {
+            this.setState({
+                books: [],
+                state: "none"
+            });
+            return;
+        }
+
         BooksAPI
             .search(query, 10)
             .then((books) => {
-                this.setState({ books: books })
+                if (books.error && books.error !== "empty query") {
+                    this.setState({
+                        books: [],
+                        state: "error"
+                    });
+                    return;
+                }
+
+                this.setState({
+                    books: books,
+                    state: "success"
+                });
             });
     }
 
     onQueryChange = (e) => {
+        const self = this;
         const query = e.target.value.trim();
-        this.setState({
-            query: query
+
+        self.setState({
+            state: "searching"
         });
 
-        this.getBooks(query);
+        if (self.state.timeout) {
+            clearTimeout(self.state.timeout);
+        }
+
+        self.setState({
+            query: query,
+            typing: false,
+            timeout: setTimeout(function () {
+                self.getBooks(query);
+            }, Constants.wait_interval)
+        });
     }
 
     render() {
-        const { query, books } = this.state
+        const { query, books, state } = this.state
+
+        const results = (books || []);
 
         return (
             <div className="search-books">
@@ -44,20 +80,34 @@ class BookSearch extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <div>
-                        <div className=''>
-                            <h3>Search returned {books.length} books </h3>
-                        </div>
-                        <ol className="books-grid">
-                            {
-                                (books || []).map((book, index) => (
-                                    <Book
-                                        key={index}
-                                        book={book}
-                                    />
-                                ))}
-                        </ol>
-                    </div>
+                    {
+                        state === "searching" || query === "" ?
+                            (
+                                <div></div>
+                            )
+                            :
+                            state === "success" && results.length > 0 ?
+                                (
+                                    <div>
+                                        <div>
+                                            <h3>Search returned {results.length} books </h3>
+                                        </div>
+                                        <ol className="books-grid">
+                                            {
+                                                results.map((book, index) => (
+                                                    <Book key={index} book={book}>
+                                                    </Book>
+                                                ))}
+                                        </ol>
+                                    </div>
+                                )
+                                :
+                                (
+                                    <div>
+                                        <h3>Your search - '<b>{query}</b>' - did not match any books.</h3>
+                                    </div>
+                                )
+                    }
                 </div>
             </div>
         )
