@@ -4,8 +4,11 @@ import { Route } from 'react-router-dom'
 import BookSearch from 'views/BookSearch.js'
 import BookList from 'views/BookList.js'
 
-import './App.css'
+import 'App.css'
 
+/** 
+ * @description The entrypoint on the application.
+*/
 class BooksApp extends React.Component {
   render() {
     return (

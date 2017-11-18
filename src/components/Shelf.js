@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import ShelfChanger from 'components/ShelfChanger.js'
 import Book from 'components/Book.js'
 
+/** 
+ * @description Represents a single shelf on a bookshelf
+*/
 class Shelf extends Component {
 
     static propTypes = {

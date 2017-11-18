@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/** 
+ * @description Represents a book
+*/
 class Book extends Component {
 
     static propTypes = {

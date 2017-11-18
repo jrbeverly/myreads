@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/** 
+ * @description Represents an element responsible for switching book between shelves.
+*/
 class ShelfChanger extends Component {
     static propTypes = {
         value: PropTypes.string,

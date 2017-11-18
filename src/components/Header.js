@@ -1,8 +1,8 @@
 import React from 'react';
 
-/**
- * The header for the application bookshelf.
- */
+/** 
+ * @description Represents the titlebar of the webpage
+*/
 function Header() {
     const title = "MyReads";
 
