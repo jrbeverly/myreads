@@ -42,7 +42,7 @@ class BookSearch extends Component {
             });
     }
 
-    onQueryChange = (e) => {
+    onQueryChange(e) {
         const self = this;
         const query = e.target.value.trim();
 
@@ -66,8 +66,6 @@ class BookSearch extends Component {
     render() {
         const { query, books, state } = this.state
 
-        const results = (books || []);
-
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -86,16 +84,17 @@ class BookSearch extends Component {
                                 <div></div>
                             )
                             :
-                            state === "success" && results.length > 0 ?
+                            state === "success" && books.length > 0 ?
                                 (
                                     <div>
                                         <div>
-                                            <h3>Search returned {results.length} books </h3>
+                                            <h3>Search returned {books.length} books </h3>
                                         </div>
                                         <ol className="books-grid">
                                             {
-                                                results.map((book, index) => (
+                                                books.map((book, index) => (
                                                     <Book key={index} book={book}>
+                                                        <ShelfChanger value="none" onChange={(fromShelf, toShelf) => onShelfChange(book, fromShelf, toShelf)} />
                                                     </Book>
                                                 ))}
                                         </ol>
