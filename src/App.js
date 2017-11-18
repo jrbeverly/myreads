@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 
-import BookSearch from './components/BookSearch.js'
-import BookList from './components/BookList.js'
+import BookSearch from 'views/BookSearch.js'
+import BookList from 'views/BookList.js'
 
 import './App.css'
 
