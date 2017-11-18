@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 import * as BooksAPI from 'api/BooksAPI'
 import Shelf from 'components/Shelf.js'
 
@@ -93,7 +94,9 @@ class BookShelf extends Component {
                         )
                         :
                         (
-                            <div className="loading">Loading...</div>
+                            <div className="loading">
+                                <ReactLoading type="bars" color="#444" width='150' />
+                            </div>
                         )
                 }
             </div>

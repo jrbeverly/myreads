@@ -13,6 +13,12 @@ body,
     background: white;
 }
 
+.loading {
+    margin: auto;
+    padding-top: 100px;
+    width: 8.5%;
+}
+
 
 /* main page */
 
