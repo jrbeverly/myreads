@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { ReactLoading } from 'react-loading';
+import ReactLoading from 'react-loading';
 
 import Book from 'components/Book.js'
 import ShelfChanger from 'components/ShelfChanger.js'
@@ -98,7 +98,6 @@ class BookSearch extends Component {
 
         this.setState({
             query: query,
-            typing: false,
             timeout: setTimeout(() => {
                 self.search(query);
             }, Constants.wait_interval)
