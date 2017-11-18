@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import ShelfChanger from 'components/ShelfChanger.js'
+
 import Book from 'components/Book.js'
+import ShelfChanger from 'components/ShelfChanger.js'
+
 
 /** 
  * @description Represents a single shelf on a bookshelf

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import ReactLoading from 'react-loading';
+import { ReactLoading } from 'react-loading';
 
 import Book from 'components/Book.js'
 import ShelfChanger from 'components/ShelfChanger.js'
+
 import Constants from 'utility/AppConstants.js'
 
 import * as BooksAPI from 'api/BooksAPI'
 
+/** 
+ * @description Represents the search view
+*/
 class BookSearch extends Component {
 
     state = {
@@ -22,6 +26,9 @@ class BookSearch extends Component {
         this.getBooks();
     }
 
+    /**
+    * @description Gets the current state of the bookshelf
+    */
     getBooks() {
         BooksAPI.getAll().then(books => {
             this.setState(
@@ -32,6 +39,10 @@ class BookSearch extends Component {
         })
     }
 
+    /**
+    * @description Performs a search with the specified query
+    * @param {string} query - The search criteria
+    */
     search(query) {
         if (!query) {
             this.setState({
@@ -69,6 +80,10 @@ class BookSearch extends Component {
             });
     }
 
+    /**
+    * @description Receives notification that the search input's state has changed
+    * @param {object} e - An object that contains text input event data
+    */
     onQueryChange(event) {
         const self = this;
         const query = event.target.value.trim();
@@ -90,6 +105,12 @@ class BookSearch extends Component {
         });
     }
 
+    /**
+     * @description  Receives notification that the book's shelf has changed
+     * @param {object} book - The book to move
+     * @param {string} fromShelf - The current shelf of the book
+     * @param {string} toShelf - The new shelf of the book
+     */
     onShelfChange(book, fromShelf, toShelf) {
         const self = this;
 

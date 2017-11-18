@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
-import * as BooksAPI from 'api/BooksAPI'
+
 import Shelf from 'components/Shelf.js'
+
+import * as BooksAPI from 'api/BooksAPI'
 
 /** 
  * @description Represents a bookshelf, containing a collection of shelves
@@ -32,11 +34,10 @@ class BookShelf extends Component {
     }
 
     /**
-     * Moves a book between shelves
-     *
-     * @param {object} book
-     * @param {string} fromShelf
-     * @param {string} toShelf
+     * @description Moves a book between shelves
+     * @param {object} book - The book to move between shelves
+     * @param {string} fromShelf - The current shelf of the book
+     * @param {string} toShelf - The shelf to move to the book to
      */
     move(book, fromShelf, toShelf) {
         this.remove(fromShelf, book);
@@ -46,8 +47,7 @@ class BookShelf extends Component {
     }
 
     /**
-     * Adds a book to the specified shelf
-     *
+     * @description Adds a book to the specified shelf
      * @param {string} shelf - The shelf
      * @param {object} book - The book to be added to the shelf
      */
@@ -63,8 +63,7 @@ class BookShelf extends Component {
     }
 
     /**
-     * Removes a book from the specified shelf
-     *
+     * @description Removes a book from the specified shelf
      * @param {string} shelf - The shelf
      * @param {object} book - The book to remove from the shelf
      */

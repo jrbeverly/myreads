@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /** 
- * @description Represents an element responsible for switching book between shelves.
+ * @description Represents an element responsible for moving a book between shelves
 */
 class ShelfChanger extends Component {
+    
     static propTypes = {
         value: PropTypes.string,
         onChange: PropTypes.func.isRequired
@@ -14,6 +15,11 @@ class ShelfChanger extends Component {
         select: this.props.value || 'none'
     }
 
+    /**
+    * @description Receives notification that the dropdown's state has changed
+    * @param {object} e - An object that contains event data
+    * @param {func} onChange - A function that is notified that the dropdown's state has changed
+    */
     onStateChange(e, onChange) {
         const value = e.target.value;
         onChange(this.state.select, value);
