@@ -5,7 +5,7 @@ class BookShelf extends Component {
 
     state = {
         shelves: {
-            reading: [
+            currentlyReading: [
                 {
                     id: 1,
                     title: "To Kill a Mockingbird",
@@ -19,7 +19,7 @@ class BookShelf extends Component {
                     url: "http://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api"
                 }
             ],
-            wanted: [
+            wantToRead: [
                 {
                     id: 3,
                     title: "1776",
@@ -59,14 +59,14 @@ class BookShelf extends Component {
     /**
      * Moves a book to a shelf.
      *
-     * @param {string} currentShelf
-     * @param {string} newShelf
      * @param {object} book
+     * @param {string} fromShelf
+     * @param {string} toShelf     
      * @public
      */
-    move(currentShelf, newShelf, book) {
-        this.remove(currentShelf, book);
-        this.add(newShelf, book);
+    move(book, fromShelf, toShelf) {
+        this.remove(fromShelf, book);
+        this.add(toShelf, book);
     }
 
     /**
@@ -77,11 +77,14 @@ class BookShelf extends Component {
      * @public
      */
     add(shelf, book) {
-        this.setState((state) => (
+        const shelves = this.state.shelves;
+        (shelves[shelf] = shelves[shelf] || []).push(book);
+
+        this.setState(
             {
-                shelves: state.shelves[shelf].push(book)
+                shelves: shelves
             }
-        ));
+        );
     }
 
     /**
@@ -92,24 +95,23 @@ class BookShelf extends Component {
      * @public
      */
     remove(shelf, book) {
-        this.setState((state) => (
-            {
-                shelves: state.shelves[shelf].filter((b) => b.id !== book.id)
-            }
-        ));
-    }
+        const shelves = this.state.shelves;
+        shelves[shelf] = (shelves[shelf] || []).filter((b) => b.id !== book.id);
 
-    onShelfChange = (book, shelf) => {
-        console.log("hello world");
+        this.setState(
+            {
+                shelves: shelves
+            }
+        );
     }
 
     render() {
         return (
             <div className="list-books-content">
                 <div>
-                    <Shelf title="Currently Reading" books={this.state.shelves.reading} onChange={ this.onShelfChange } />
-                    <Shelf title="Want to Read" books={this.state.shelves.wanted} onChange={ this.onShelfChange } />
-                    <Shelf title="Read" books={this.state.shelves.read} onChange={ this.onShelfChange } />
+                    <Shelf title="Currently Reading" shelf="currentlyReading" books={this.state.shelves.currentlyReading} onChange={ (book, fromShelf, toShelf) => this.move(book, "currentlyReading", toShelf) } />
+                    <Shelf title="Want to Read" shelf="wantToRead" books={this.state.shelves.wantToRead} onChange={ (book, fromShelf, toShelf) => this.move(book, "wantToRead", toShelf) } />
+                    <Shelf title="Read" shelf="read" books={this.state.shelves.read} onChange={ (book, fromShelf, toShelf) => this.move(book, "read", toShelf) } />
                 </div>
             </div>
         )
