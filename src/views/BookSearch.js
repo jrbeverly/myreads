@@ -99,7 +99,7 @@ class BookSearch extends Component {
         this.setState({
             query: query,
             typing: false,
-            timeout: setTimeout(function () {
+            timeout: setTimeout(() => {
                 self.search(query);
             }, Constants.wait_interval)
         });
@@ -114,7 +114,7 @@ class BookSearch extends Component {
     onShelfChange(book, fromShelf, toShelf) {
         const self = this;
 
-        BooksAPI.update(book, toShelf).then(function () {
+        BooksAPI.update(book, toShelf).then(() => {
             self.getBooks();
             self.search(self.state.query);
         });
