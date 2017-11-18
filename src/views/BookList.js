@@ -16,7 +16,7 @@ class BookList extends Component {
                 <BookShelf />
                 <OpenSearch />
             </div>
-        )
+        );
     }
 }
 

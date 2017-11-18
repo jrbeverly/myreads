@@ -36,7 +36,7 @@ class Book extends Component {
                     <div className="book-authors">{book.authors ? book.authors.join(', ') : null}</div>
                 </div>
             </li>
-        )
+        );
     }
 }
 

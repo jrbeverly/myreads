@@ -36,7 +36,7 @@ class BookSearch extends Component {
                     shelves: books.map((b) => b.id)
                 }
             );
-        })
+        });
     }
 
     /**
@@ -121,7 +121,7 @@ class BookSearch extends Component {
     }
 
     render() {
-        const { query, books, state } = this.state
+        const { query, books, state } = this.state;
 
         return (
             <div className="search-books">
@@ -168,7 +168,7 @@ class BookSearch extends Component {
                     }
                 </div>
             </div>
-        )
+        );
     }
 }
 
