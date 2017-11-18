@@ -2,5 +2,5 @@
  * @description A collection of common constants.
 */
 module.exports = {
-    wait_interval: 1000
+    wait_interval: 100
 }
