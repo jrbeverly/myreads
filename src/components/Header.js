@@ -8,7 +8,7 @@ function Header() {
 
     return (
         <div className="list-books-title">
-            <h1>{ title }</h1>
+            <h1>{title}</h1>
         </div>
     )
 }

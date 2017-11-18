@@ -24,7 +24,7 @@ class ShelfChanger extends Component {
         const { onChange } = this.props;
 
         return (
-            <select onChange={(e) => this.onStateChange(e, onChange) } value={this.state.select}>
+            <select onChange={(e) => this.onStateChange(e, onChange)} value={this.state.select}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>

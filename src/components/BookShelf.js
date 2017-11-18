@@ -33,7 +33,7 @@ class BookShelf extends Component {
      *
      * @param {object} book
      * @param {string} fromShelf
-     * @param {string} toShelf     
+     * @param {string} toShelf
      * @public
      */
     move(book, fromShelf, toShelf) {
