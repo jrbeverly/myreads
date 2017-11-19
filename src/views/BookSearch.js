@@ -34,7 +34,7 @@ class BookSearch extends Component {
         BooksAPI.getAll().then(books => {
             this.setState(
                 {
-                    shelves: books.map((b) => b.id)
+                    shelves: books
                 }
             );
         });
@@ -74,8 +74,14 @@ class BookSearch extends Component {
 
                 const shelves = this.state.shelves;
 
+                const result = books.map((book) => {
+                    const match = (shelves.find((b) => b.id === book.id));
+                    match && (book.shelf = match.shelf);
+                    return book;
+                });
+
                 this.setState({
-                    books: books.filter((b) => !shelves.includes(b.id)),
+                    books: result,
                     state: "success"
                 });
             });
@@ -146,7 +152,7 @@ class BookSearch extends Component {
                                             {
                                                 books.map((book, index) => (
                                                     <Book key={index} book={book}>
-                                                        <ShelfChanger value="none" onChange={(fromShelf, toShelf) => this.onShelfChange(book, fromShelf, toShelf)} />
+                                                        <ShelfChanger value={book.shelf} onChange={(fromShelf, toShelf) => this.onShelfChange(book, fromShelf, toShelf)} />
                                                     </Book>
                                                 ))}
                                         </ol>
