@@ -10,13 +10,16 @@ import * as BooksAPI from 'api/BooksAPI'
 */
 class BookShelf extends Component {
 
-    state = {
-        shelves: {
-            currentlyReading: [],
-            wantToRead: [],
-            read: []
-        },
-        ready: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            shelves: {
+                currentlyReading: [],
+                wantToRead: [],
+                read: []
+            },
+            ready: false
+        };
     }
 
     componentDidMount() {

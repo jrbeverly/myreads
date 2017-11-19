@@ -14,12 +14,15 @@ import * as BooksAPI from 'api/BooksAPI'
 */
 class BookSearch extends Component {
 
-    state = {
-        query: "",
-        books: [],
-        shelves: [],
-        state: "none",
-        timeout: 0
+    constructor(props) {
+        super(props);
+        this.state = {
+            query: "",
+            books: [],
+            shelves: [],
+            state: "none",
+            timeout: 0
+        };
     }
 
     componentDidMount() {

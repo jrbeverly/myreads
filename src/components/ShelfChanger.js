@@ -11,9 +11,12 @@ class ShelfChanger extends Component {
         onChange: PropTypes.func.isRequired
     }
 
-    state = {
-        select: this.props.value || 'none'
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            select: this.props.value || 'none'
+        };
+    }    
 
     /**
     * @description Receives notification that the dropdown's state has changed
