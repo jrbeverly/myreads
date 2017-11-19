@@ -112,10 +112,7 @@ class BookSearch extends Component {
     onShelfChange(book, fromShelf, toShelf) {
         const self = this;
 
-        BooksAPI.update(book, toShelf).then(() => {
-            self.getBooks();
-            self.search(self.state.query);
-        });
+        BooksAPI.update(book, toShelf);
     }
 
     render() {
