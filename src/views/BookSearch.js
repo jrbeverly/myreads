@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import ReactLoading from 'react-loading';
+import { Debounce } from 'react-throttle';
 
 import Book from 'components/Book.js'
 import ShelfChanger from 'components/ShelfChanger.js'
-
-import Constants from 'utility/AppConstants.js'
 
 import * as BooksAPI from 'api/BooksAPI'
 
@@ -20,8 +19,7 @@ class BookSearch extends Component {
             query: "",
             books: [],
             shelves: [],
-            state: "none",
-            timeout: 0
+            state: "none"
         };
     }
 
@@ -92,19 +90,11 @@ class BookSearch extends Component {
         const query = event.target.value.trim();
 
         this.setState({
+            query: query,
             state: "searching"
         });
 
-        if (this.state.timeout) {
-            clearTimeout(this.state.timeout);
-        }
-
-        this.setState({
-            query: query,
-            timeout: setTimeout(() => {
-                self.search(query);
-            }, Constants.wait_interval)
-        });
+        self.search(query);
     }
 
     /**
@@ -130,10 +120,11 @@ class BookSearch extends Component {
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text"
-                            placeholder="Search by title or author"
-                            value={query}
-                            onChange={(event) => this.onQueryChange(event)} />
+                        <Debounce time="400" handler="onChange">
+                            <input type="text"
+                                placeholder="Search by title or author"
+                                onChange={(event) => this.onQueryChange(event)} />
+                        </Debounce>
                     </div>
                 </div>
                 <div className="search-books-results">
