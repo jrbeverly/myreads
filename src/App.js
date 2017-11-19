@@ -9,7 +9,7 @@ import 'App.css'
 /** 
  * @description The entrypoint on the application.
 */
-BooksApp = () => {
+const BooksApp = () => {
   return (
     <div className="app">
       <Route exact path="/" component={BookList} />

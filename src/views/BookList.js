@@ -7,7 +7,7 @@ import OpenSearch from 'components/OpenSearch.js'
 /** 
  * @description Represents the bookshelf and all connected elements
 */
-BookList = () => {
+const BookList = () => {
     return (
         <div className="list-books">
             <Header />
