@@ -40,10 +40,10 @@ class BookShelf extends Component {
      * @param {string} toShelf - The shelf to move to the book to
      */
     move(book, fromShelf, toShelf) {
-        this.remove(fromShelf, book);
-        this.add(toShelf, book);
-
-        BooksAPI.update(book, toShelf);
+        BooksAPI.update(book, toShelf).then(() => {
+            this.remove(fromShelf, book);
+            this.add(toShelf, book);
+        });
     }
 
     /**
