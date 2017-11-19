@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
+import update from 'immutability-helper';
 
 import Shelf from 'components/Shelf.js'
 
@@ -45,7 +46,7 @@ class BookShelf extends Component {
     move(book, fromShelf, toShelf) {
         BooksAPI.update(book, toShelf).then(() => {
             this.remove(fromShelf, book);
-            this.add(toShelf, book);
+            toShelf !== 'none' && this.add(toShelf, book);
         });
     }
 
@@ -55,14 +56,11 @@ class BookShelf extends Component {
      * @param {object} book - The book to be added to the shelf
      */
     add(shelf, book) {
-        const shelves = this.state.shelves;
-        (shelves[shelf] = shelves[shelf] || []).push(book);
-
-        this.setState(
-            {
-                shelves: shelves
-            }
-        );
+        this.setState((prevState) => ({
+            shelves: update(prevState.shelves, {
+                [shelf]: { $push: [book] }
+            })
+        }));
     }
 
     /**
@@ -71,14 +69,11 @@ class BookShelf extends Component {
      * @param {object} book - The book to remove from the shelf
      */
     remove(shelf, book) {
-        const shelves = this.state.shelves;
-        shelves[shelf] = (shelves[shelf] || []).filter((b) => b.id !== book.id);
-
-        this.setState(
-            {
-                shelves: shelves
-            }
-        );
+        this.setState((prevState) => ({
+            shelves: update(prevState.shelves, {
+                [shelf]: { $splice: [[ (prevState.shelves[shelf].findIndex((b) => b.id === book.id)), 1]] }
+            })
+        }));
     }
 
     render() {

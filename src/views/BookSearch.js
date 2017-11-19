@@ -110,8 +110,6 @@ class BookSearch extends Component {
      * @param {string} toShelf - The new shelf of the book
      */
     onShelfChange(book, fromShelf, toShelf) {
-        const self = this;
-
         BooksAPI.update(book, toShelf);
     }
 

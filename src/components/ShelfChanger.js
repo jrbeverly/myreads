@@ -14,7 +14,7 @@ class ShelfChanger extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            select: this.props.value || 'none'
+            select: props.value || 'none'
         };
     }    
 
