@@ -3,7 +3,7 @@ import React from 'react';
 /** 
  * @description Represents the titlebar of the webpage
 */
-function Header() {
+Header = () => {
     const title = "MyReads";
 
     return (

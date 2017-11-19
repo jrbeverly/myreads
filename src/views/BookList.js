@@ -7,17 +7,14 @@ import OpenSearch from 'components/OpenSearch.js'
 /** 
  * @description Represents the bookshelf and all connected elements
 */
-class BookList extends Component {
-
-    render() {
-        return (
-            <div className="list-books">
-                <Header />
-                <BookShelf />
-                <OpenSearch />
-            </div>
-        );
-    }
+BookList = () => {
+    return (
+        <div className="list-books">
+            <Header />
+            <BookShelf />
+            <OpenSearch />
+        </div>
+    );
 }
 
 export default BookList

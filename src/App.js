@@ -9,15 +9,13 @@ import 'App.css'
 /** 
  * @description The entrypoint on the application.
 */
-class BooksApp extends React.Component {
-  render() {
-    return (
-      <div className="app">
-        <Route exact path="/" component={BookList} />
-        <Route path="/search" component={BookSearch} />
-      </div>
-    )
-  }
+BooksApp = () => {
+  return (
+    <div className="app">
+      <Route exact path="/" component={BookList} />
+      <Route path="/search" component={BookSearch} />
+    </div>
+  )
 }
 
 export default BooksApp
