@@ -10,13 +10,16 @@ import * as BooksAPI from 'api/BooksAPI'
 */
 class BookShelf extends Component {
 
-    state = {
-        shelves: {
-            currentlyReading: [],
-            wantToRead: [],
-            read: []
-        },
-        ready: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            shelves: {
+                currentlyReading: [],
+                wantToRead: [],
+                read: []
+            },
+            ready: false
+        };
     }
 
     componentDidMount() {
@@ -40,10 +43,10 @@ class BookShelf extends Component {
      * @param {string} toShelf - The shelf to move to the book to
      */
     move(book, fromShelf, toShelf) {
-        this.remove(fromShelf, book);
-        this.add(toShelf, book);
-
-        BooksAPI.update(book, toShelf);
+        BooksAPI.update(book, toShelf).then(() => {
+            this.remove(fromShelf, book);
+            this.add(toShelf, book);
+        });
     }
 
     /**

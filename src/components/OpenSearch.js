@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 /** 
  * @description Represents the open search page action
 */
-function OpenSearch() {
+const OpenSearch = () => {
     return (
         <div className="open-search">
             <Link to="/search">Add a book</Link>

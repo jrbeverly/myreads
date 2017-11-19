@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import ReactLoading from 'react-loading';
+import { Debounce } from 'react-throttle';
 
 import Book from 'components/Book.js'
 import ShelfChanger from 'components/ShelfChanger.js'
-
-import Constants from 'utility/AppConstants.js'
 
 import * as BooksAPI from 'api/BooksAPI'
 
@@ -14,12 +13,14 @@ import * as BooksAPI from 'api/BooksAPI'
 */
 class BookSearch extends Component {
 
-    state = {
-        query: "",
-        books: [],
-        shelves: [],
-        state: "none",
-        timeout: 0
+    constructor(props) {
+        super(props);
+        this.state = {
+            query: "",
+            books: [],
+            shelves: [],
+            state: "none"
+        };
     }
 
     componentDidMount() {
@@ -33,7 +34,7 @@ class BookSearch extends Component {
         BooksAPI.getAll().then(books => {
             this.setState(
                 {
-                    shelves: books.map((b) => b.id)
+                    shelves: books
                 }
             );
         });
@@ -73,8 +74,14 @@ class BookSearch extends Component {
 
                 const shelves = this.state.shelves;
 
+                const result = books.map((book) => {
+                    const match = (shelves.find((b) => b.id === book.id));
+                    match && (book.shelf = match.shelf);
+                    return book;
+                });
+
                 this.setState({
-                    books: books.filter((b) => !shelves.includes(b.id)),
+                    books: result,
                     state: "success"
                 });
             });
@@ -89,19 +96,11 @@ class BookSearch extends Component {
         const query = event.target.value.trim();
 
         this.setState({
+            query: query,
             state: "searching"
         });
 
-        if (this.state.timeout) {
-            clearTimeout(this.state.timeout);
-        }
-
-        this.setState({
-            query: query,
-            timeout: setTimeout(() => {
-                self.search(query);
-            }, Constants.wait_interval)
-        });
+        self.search(query);
     }
 
     /**
@@ -127,10 +126,11 @@ class BookSearch extends Component {
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text"
-                            placeholder="Search by title or author"
-                            value={query}
-                            onChange={(event) => this.onQueryChange(event)} />
+                        <Debounce time="400" handler="onChange">
+                            <input type="text"
+                                placeholder="Search by title or author"
+                                onChange={(event) => this.onQueryChange(event)} />
+                        </Debounce>
                     </div>
                 </div>
                 <div className="search-books-results">
@@ -152,7 +152,7 @@ class BookSearch extends Component {
                                             {
                                                 books.map((book, index) => (
                                                     <Book key={index} book={book}>
-                                                        <ShelfChanger value="none" onChange={(fromShelf, toShelf) => this.onShelfChange(book, fromShelf, toShelf)} />
+                                                        <ShelfChanger value={book.shelf} onChange={(fromShelf, toShelf) => this.onShelfChange(book, fromShelf, toShelf)} />
                                                     </Book>
                                                 ))}
                                         </ol>
