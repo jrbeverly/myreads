@@ -9,7 +9,7 @@ import * as BooksAPI from 'api/BooksAPI'
 
 import 'App.css'
 
-/** 
+/**
  * @description The entrypoint on the application.
 */
 class BooksApp extends Component {
@@ -17,7 +17,6 @@ class BooksApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [],
       shelves: {
         currentlyReading: [],
         wantToRead: [],
@@ -42,13 +41,25 @@ class BooksApp extends Component {
 
       this.setState(
         {
-          books: books,
           ready: true
         }
       );
     });
   }
 
+
+  /**
+  * @description Get a list of all books on the bookshelf
+  */
+  getAll() {
+    let books = [];
+    for (var shelf in this.state.shelves) {
+      if (this.state.shelves.hasOwnProperty(shelf)) {
+        books = books.concat(this.state.shelves[shelf]);
+      }
+    }
+    return books;
+  }
 
   /**
   * @description Moves a book between shelves
@@ -60,8 +71,14 @@ class BooksApp extends Component {
     BooksAPI
       .update(book, toShelf)
       .then(() => {
-        fromShelf !== 'none' && this.remove(fromShelf, book);
-        toShelf !== 'none' && this.add(toShelf, book);
+        console.log(`[${fromShelf} , ${toShelf}] - ${book.title}`);
+        if (fromShelf !== 'none' && toShelf !== 'none') {
+          this.remove(fromShelf, book, () => this.add(toShelf, book));
+        } else if (fromShelf !== 'none') {
+          this.remove(fromShelf, book);
+        } else if (toShelf !== 'none') {
+          this.add(toShelf, book);
+        }
       });
   }
 
@@ -69,30 +86,36 @@ class BooksApp extends Component {
    * @description Adds a book to the specified shelf
    * @param {string} shelf - The shelf
    * @param {object} book - The book to be added to the shelf
+   * @param {object} callback - Calls a function after altering the state
    */
-  add(shelf, book) {
+  add(shelf, book, callback) {
+    book.shelf = shelf;
+
     this.setState((prevState) => ({
       shelves: update(prevState.shelves, {
         [shelf]: { $push: [book] }
       })
-    }));
+    }), callback);
   }
 
   /**
    * @description Removes a book from the specified shelf
    * @param {string} shelf - The shelf
    * @param {object} book - The book to remove from the shelf
+   * @param {object} callback - Calls a function after altering the state
    */
-  remove(shelf, book) {
+  remove(shelf, book, callback) {
+    book.shelf = 'none';
+
     this.setState((prevState) => ({
       shelves: update(prevState.shelves, {
         [shelf]: { $splice: [[(prevState.shelves[shelf].findIndex((b) => b.id === book.id)), 1]] }
       })
-    }));
+    }), callback);
   }
 
   render() {
-    const { shelves, books, ready } = this.state;
+    const { shelves, ready } = this.state;
 
     return (
       <div className="app">
@@ -109,7 +132,7 @@ class BooksApp extends Component {
           render={(routeProps) => (
             <BookSearch
               {...routeProps}
-              books={books}
+              books={this.getAll()}
               onStateChanged={(book, fromShelf, toShelf) => this.move(book, fromShelf, toShelf)}
             />
           )} />

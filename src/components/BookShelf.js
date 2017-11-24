@@ -19,9 +19,9 @@ class BookShelf extends Component {
         return (
             <div className="list-books-content">
                 <div>
-                    <Shelf title="Currently Reading" shelf="currentlyReading" books={shelves.currentlyReading} onChange={(book, fromShelf, toShelf) => onStateChanged(book, "currentlyReading", toShelf)} />
-                    <Shelf title="Want to Read" shelf="wantToRead" books={shelves.wantToRead} onChange={(book, fromShelf, toShelf) => onStateChanged(book, "wantToRead", toShelf)} />
-                    <Shelf title="Read" shelf="read" books={shelves.read} onChange={(book, fromShelf, toShelf) => onStateChanged(book, "read", toShelf)} />
+                    <Shelf title="Currently Reading" shelf="currentlyReading" books={shelves.currentlyReading} onChange={onStateChanged} />
+                    <Shelf title="Want to Read" shelf="wantToRead" books={shelves.wantToRead} onChange={onStateChanged} />
+                    <Shelf title="Read" shelf="read" books={shelves.read} onChange={onStateChanged} />
                 </div>
             </div>
         );

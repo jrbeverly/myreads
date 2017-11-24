@@ -9,7 +9,7 @@ import ShelfChanger from 'components/ShelfChanger.js'
 
 import * as BooksAPI from 'api/BooksAPI'
 
-/** 
+/**
  * @description Represents the search view
 */
 class BookSearch extends Component {
@@ -24,7 +24,6 @@ class BookSearch extends Component {
         this.state = {
             query: "",
             results: [],
-            books: props.books,
             state: "none"
         };
     }
@@ -43,11 +42,12 @@ class BookSearch extends Component {
         }
 
         const self = this;
+        const { books } = self.props;
 
         BooksAPI
             .search(query, 20)
-            .then((books) => {
-                if (books.error === "empty query") {
+            .then((results) => {
+                if (results.error === "empty query") {
                     self.setState({
                         results: [],
                         state: "success"
@@ -55,7 +55,7 @@ class BookSearch extends Component {
                     return;
                 }
 
-                if (books.error) {
+                if (results.error) {
                     self.setState({
                         results: [],
                         state: "error"
@@ -63,11 +63,9 @@ class BookSearch extends Component {
                     return;
                 }
 
-                const shelfBooks = self.state.books;
-
-                const result = books.map((book) => {
-                    const match = (shelfBooks.find((b) => b.id === book.id));
-                    match && (book.shelf = match.shelf);
+                const result = results.map((book) => {
+                    const match = (books.find((b) => b.id === book.id));
+                    book.shelf = (match) ? match.shelf : 'none';
                     return book;
                 });
 

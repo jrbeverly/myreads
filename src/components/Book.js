@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-/** 
+/**
  * @description Represents a book
 */
 const Book = (props) => {
