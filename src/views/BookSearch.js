@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import ReactLoading from 'react-loading';
 import { Debounce } from 'react-throttle';
@@ -13,75 +14,65 @@ import * as BooksAPI from 'api/BooksAPI'
 */
 class BookSearch extends Component {
 
+    static propTypes = {
+        books: PropTypes.array.isRequired,
+        onStateChanged: PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props);
         this.state = {
             query: "",
-            books: [],
-            shelves: [],
+            results: [],
+            books: props.books,
             state: "none"
         };
-    }
-
-    componentDidMount() {
-        this.getBooks();
-    }
-
-    /**
-    * @description Gets the current state of the bookshelf
-    */
-    getBooks() {
-        BooksAPI.getAll().then(books => {
-            this.setState(
-                {
-                    shelves: books
-                }
-            );
-        });
     }
 
     /**
     * @description Performs a search with the specified query
     * @param {string} query - The search criteria
     */
-    search(query) {
+    search = (query) => {
         if (!query) {
             this.setState({
-                books: [],
+                results: [],
                 state: "none"
             });
             return;
         }
 
+        const self = this;
+
         BooksAPI
-            .search(query, 10)
+            .search(query, 20)
             .then((books) => {
                 if (books.error === "empty query") {
-                    this.setState({
-                        books: [],
+                    self.setState({
+                        results: [],
                         state: "success"
                     });
                     return;
                 }
 
                 if (books.error) {
-                    this.setState({
-                        books: [],
+                    self.setState({
+                        results: [],
                         state: "error"
                     });
                     return;
                 }
 
-                const shelves = this.state.shelves;
+                const shelfBooks = self.state.books;
 
                 const result = books.map((book) => {
-                    const match = (shelves.find((b) => b.id === book.id));
+                    const match = (shelfBooks.find((b) => b.id === book.id));
                     match && (book.shelf = match.shelf);
                     return book;
                 });
 
-                this.setState({
-                    books: result,
+                self.setState({
+                    results: result,
                     state: "success"
                 });
             });
@@ -91,8 +82,7 @@ class BookSearch extends Component {
     * @description Receives notification that the search input's state has changed
     * @param {object} e - An object that contains text input event data
     */
-    onQueryChange(event) {
-        const self = this;
+    onQueryChange = (event) => {
         const query = event.target.value.trim();
 
         this.setState({
@@ -100,21 +90,12 @@ class BookSearch extends Component {
             state: "searching"
         });
 
-        self.search(query);
-    }
-
-    /**
-     * @description  Receives notification that the book's shelf has changed
-     * @param {object} book - The book to move
-     * @param {string} fromShelf - The current shelf of the book
-     * @param {string} toShelf - The new shelf of the book
-     */
-    onShelfChange(book, fromShelf, toShelf) {
-        BooksAPI.update(book, toShelf);
+        this.search(query);
     }
 
     render() {
-        const { query, books, state } = this.state;
+        const { query, results, state } = this.state;
+        const { onStateChanged } = this.props;
 
         return (
             <div className="search-books">
@@ -137,17 +118,17 @@ class BookSearch extends Component {
                                 </div>
                             )
                             :
-                            state === "success" && books.length > 0 ?
+                            state === "success" && results.length > 0 ?
                                 (
                                     <div>
                                         <div>
-                                            <h3>Search returned {books.length} books </h3>
+                                            <h3>Search returned {results.length} books </h3>
                                         </div>
                                         <ol className="books-grid">
                                             {
-                                                books.map((book, index) => (
+                                                results.map((book, index) => (
                                                     <Book key={index} book={book}>
-                                                        <ShelfChanger value={book.shelf} onChange={(fromShelf, toShelf) => this.onShelfChange(book, fromShelf, toShelf)} />
+                                                        <ShelfChanger value={book.shelf} onChange={(fromShelf, toShelf) => onStateChanged(book, fromShelf, toShelf)} />
                                                     </Book>
                                                 ))}
                                         </ol>
