@@ -71,7 +71,6 @@ class BooksApp extends Component {
     BooksAPI
       .update(book, toShelf)
       .then(() => {
-        console.log(`[${fromShelf} , ${toShelf}] - ${book.title}`);
         if (fromShelf !== 'none' && toShelf !== 'none') {
           this.remove(fromShelf, book, () => this.add(toShelf, book));
         } else if (fromShelf !== 'none') {
