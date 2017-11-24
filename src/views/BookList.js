@@ -27,7 +27,7 @@ class BookList extends Component {
                     isReady
                         ?
                         (
-                            <BookShelf shelves={shelves} onStateChanged={onStateChanged} isReady={isReady} />
+                            <BookShelf shelves={shelves} onStateChanged={onStateChanged} />
                         )
                         :
                         (
