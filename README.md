@@ -41,3 +41,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 The MyReads application makes use of the Udacity React Books API. The service provides methods for searching a catalog of books based on a predefined list of terms. These terms are available at [docs/SEARCH_TERMS.md](docs/SEARCH_TERMS.md). 
 
 You can read more about the web service at [docs/API.md](docs/API.md).
+
+## Acknowledgements
+
+The project icon is retrieved from [the Noun Project](docs/icon/icon.json). The original source material has been altered for the purposes of the project. The icon is used under the terms of the [Public Domain](https://creativecommons.org/publicdomain/zero/1.0/).
+
+The project icon is by [Five by Five from the Noun Project](https://thenounproject.com/term/startup/38246/).
