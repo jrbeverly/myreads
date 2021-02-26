@@ -14,7 +14,9 @@
   ],
   "languages": [
     "CSS",
+    "Dockerfile",
     "HTML",
-    "JavaScript"
+    "JavaScript",
+    "Shell"
   ]
 }
