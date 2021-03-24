@@ -1,0 +1,16 @@
+slug: myreads
+description: A digital bookshelf app that allows you to select and categorize books you have read, are currently reading, or want to read.
+project: udacity
+namespace:
+status: archived
+icon: icon.svg
+license:
+  type: MIT
+  content: Jonathan Beverly <jrbeverly>
+  year: 2017
+topics: |-
+  [
+    "react",
+    "react-redux",
+    "udacity-react-nanodegree"
+  ]
